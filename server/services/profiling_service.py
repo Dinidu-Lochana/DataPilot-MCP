@@ -42,3 +42,17 @@ class ProfilingService:
             ),
             "unique_values": unique_values,
         }
+
+    @staticmethod
+    def descriptive_statistics(dataframe: pd.DataFrame) -> dict:
+
+        numeric_data = dataframe.select_dtypes(
+            include="number"
+        )
+
+        if numeric_data.empty:
+            return {}
+
+        statistics = numeric_data.describe()
+
+        return statistics.to_dict()
