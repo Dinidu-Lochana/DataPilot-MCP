@@ -2,6 +2,8 @@ from fastmcp import FastMCP
 
 from server.services.dataset_service import DatasetService
 from server.services.profiling_service import ProfilingService
+from server.services.visualization_service import VisualizationService
+from server.services.ml_service import MLService
 
 mcp = FastMCP("DataPilot")
 
@@ -172,6 +174,25 @@ def create_histogram(dataset_id: str,column: str,) -> str:
         column,
         dataset_id,
     )
+
+@mcp.tool
+def train_random_forest(
+    dataset_id: str,
+    target: str,
+) -> dict:
+    """
+    Train a Random Forest classification model.
+    """
+
+    dataframe = dataset_service.get_dataset(dataset_id)
+
+    return MLService.train_random_forest(
+        dataframe,
+        target,
+    )
+
+
+
 
 
 if __name__ == "__main__":
