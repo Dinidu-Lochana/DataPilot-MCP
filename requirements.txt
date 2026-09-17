@@ -1,0 +1,9 @@
+fastmcp
+pandas
+numpy
+scikit-learn
+matplotlib
+openpyxl
+pyarrow
+scipy
+pydantic
