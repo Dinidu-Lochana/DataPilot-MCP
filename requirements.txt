@@ -1,0 +1,14 @@
+fastmcp
+pandas
+numpy
+scikit-learn
+joblib
+matplotlib
+openpyxl
+pyarrow
+scipy
+pydantic
+langchain
+langchain-openai
+python-dotenv
+streamlit

@@ -1,0 +1,12 @@
+customer_id,age,income,purchases,city,churn
+1,25,45000,5,Colombo,0
+2,34,62000,12,Kandy,0
+3,45,38000,2,Galle,1
+4,29,55000,8,Colombo,0
+5,51,32000,1,Jaffna,1
+6,38,71000,15,Kandy,0
+7,26,41000,4,Galle,1
+8,42,68000,11,Colombo,0
+9,31,49000,7,Kandy,0
+10,57,29000,2,Galle,1
+10,57,29000,2,Galle,1
