@@ -41,3 +41,29 @@ class DatasetService:
             }
             for dataset_id, dataframe in self.datasets.items()
         ]
+
+    def drop_missing_values(self, dataset_id: str, columns: list[str] | None = None) -> dict:
+
+        dataframe = self.get_dataset(dataset_id)
+
+        if columns:
+            unknown_columns = [c for c in columns if c not in dataframe.columns]
+
+            if unknown_columns:
+                raise ValueError(
+                    f"Column(s) not found: {', '.join(unknown_columns)}"
+                )
+
+        rows_before = len(dataframe)
+
+        cleaned = dataframe.dropna(subset=columns)
+
+        self.datasets[dataset_id] = cleaned
+
+        return {
+            "dataset_id": dataset_id,
+            "columns_checked": columns or dataframe.columns.tolist(),
+            "rows_before": rows_before,
+            "rows_removed": rows_before - len(cleaned),
+            "rows_after": len(cleaned),
+        }

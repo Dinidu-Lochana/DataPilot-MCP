@@ -37,11 +37,12 @@ The client launches the MCP server as a subprocess, lists its tools and hands th
 | `profile_dataset(dataset_id)` | Shape, column types, numeric vs categorical columns, missing values, duplicate count and unique values per column. |
 | `descriptive_statistics(dataset_id)` | Count, mean, std, min, quartiles and max for numeric columns. |
 | `missing_value_analysis(dataset_id)` | Missing count and percentage per column. |
+| `drop_missing_values(dataset_id, columns=None)` | Removes rows with missing values, optionally scoped to specific columns. Updates the dataset in place, so later tool calls on the same `dataset_id` see the cleaned data. |
 | `duplicate_analysis(dataset_id)` | Number and percentage of duplicate rows. |
 | `correlation_analysis(dataset_id)` | Correlation matrix of the numeric columns. |
 | `detect_outliers(dataset_id)` | IQR-method outlier count and bounds for each numeric column. |
 | `create_histogram(dataset_id, column)` | Saves a histogram PNG to `reports/` and returns its path. |
-| `train_random_forest(dataset_id, target)` | Trains a Random Forest classifier (one-hot encoded categoricals, 80/20 stratified split) and returns accuracy, precision, recall and F1. |
+| `train_model(dataset_id, target)` | Auto-detects classification vs regression from the target column, cross-validates 3 candidate models (Random Forest, Gradient Boosting, and Logistic/Linear Regression), and returns a leaderboard, the best model's test metrics, permutation-based feature importances, and the path it was saved to under `models/`. |
 | `hello(name)` | Health check. |
 
 ## Quick start
@@ -86,7 +87,7 @@ The repo includes `data/customers.csv` (10 customers with age, income, purchases
 - "Load data/customers.csv and give me a short profile."
 - "Which numeric columns have outliers?"
 - "Create a histogram of income."
-- "Train a random forest to predict churn and report the accuracy."
+- "Train a model to predict churn and report the best model, its accuracy, and top features."
 
 ## Using the MCP server on its own
 
@@ -132,14 +133,14 @@ DataPilot-MCP/
 Current limitations:
 
 - Datasets are held in memory: they are lost when the server restarts and are shared by every browser tab of the Streamlit app.
-- Modelling is limited to a Random Forest classifier.
+- `train_model` compares tree-based and linear models; it does not yet cover clustering or deep learning.
 - It is built for local use and trusts the file paths it is given; there is no sandboxing or authentication.
 - There are no automated tests yet.
 
 Planned:
 
 - A pytest suite using an in-memory MCP client, plus CI.
-- Data-cleaning tools (impute, drop duplicates, export) and regression and clustering models.
+- Data-cleaning tools (impute, drop duplicates, export) and clustering models.
 - Path sandboxing and per-session dataset state.
 - Setup instructions for other MCP clients, and a Docker image.
 

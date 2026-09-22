@@ -36,7 +36,8 @@ Workflow:
 - A dataset must be loaded with load_dataset before any other tool can use it. Paths are relative to the project root; sample data lives in data/.
 - load_dataset returns a dataset_id (the file name without its extension). Pass that id to every other tool. Use list_datasets to see what is already loaded instead of reloading.
 - Charts are saved as PNG files under reports/. Tell the user the returned file path.
-- train_random_forest is a classification model; target must be an existing column name.
+- train_model predicts a target column, auto-detecting classification vs regression; target must be an existing column name. It compares a few models by cross-validation and saves the best one under models/. Report the best model, its test metrics, and the top few feature importances. Missing values in feature columns are imputed automatically, so this does not need cleaning first.
+- If the user asks to clean, drop, or remove missing values (or rows with them), use drop_missing_values on the loaded dataset_id rather than asking them to edit the file themselves. It updates the dataset in place, so later tool calls see the cleaned data. Report how many rows were removed.
 - Base every number you report on tool output. If a tool returns an error, fix the call (for example, load the dataset first) and retry before asking the user.
 - Keep answers concise. Summarise large results instead of dumping them."""
 

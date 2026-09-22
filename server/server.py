@@ -37,6 +37,20 @@ def list_datasets() -> list:
 
 
 @mcp.tool
+def drop_missing_values(dataset_id: str, columns: list[str] | None = None) -> dict:
+    """
+    Remove rows with missing values from a loaded dataset.
+
+    If columns is omitted, a row is dropped when any column has a missing
+    value. If columns is given, only those columns are checked. The
+    dataset is updated in place under the same dataset_id, so every other
+    tool sees the cleaned data afterwards.
+    """
+
+    return dataset_service.drop_missing_values(dataset_id, columns)
+
+
+@mcp.tool
 def profile_dataset(dataset_id: str) -> dict:
     """
     Generate a statistical profile of a loaded dataset.
@@ -176,19 +190,25 @@ def create_histogram(dataset_id: str,column: str,) -> str:
     )
 
 @mcp.tool
-def train_random_forest(
+def train_model(
     dataset_id: str,
     target: str,
 ) -> dict:
     """
-    Train a Random Forest classification model.
+    Train and compare models to predict a target column.
+
+    Auto-detects classification vs regression from the target column,
+    cross-validates a handful of candidate models, and saves the best one
+    to models/. Returns the leaderboard, feature importances, and the
+    saved model's path.
     """
 
     dataframe = dataset_service.get_dataset(dataset_id)
 
-    return MLService.train_random_forest(
+    return MLService.train_model(
         dataframe,
         target,
+        dataset_id,
     )
 
 
