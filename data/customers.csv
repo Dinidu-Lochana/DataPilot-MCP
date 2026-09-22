@@ -9,3 +9,4 @@ customer_id,age,income,purchases,city,churn
 8,42,68000,11,Colombo,0
 9,31,49000,7,Kandy,0
 10,57,29000,2,Galle,1
+10,57,29000,2,Galle,1

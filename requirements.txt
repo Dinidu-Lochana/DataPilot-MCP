@@ -7,3 +7,7 @@ openpyxl
 pyarrow
 scipy
 pydantic
+langchain
+langchain-openai
+python-dotenv
+streamlit
